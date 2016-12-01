@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset='utf-8'>
+	<title>实际的消费贷款利率</title>
+</head>
+<body>
+<p>我最近在公司门口看到有某个银行提供消费贷款，上面写的年化利率是3.5%，我最开始觉得很便宜，后来经过咨询了解到如下图所示的具体利率。手续费分为一次性还清和分期还清两种方式，而本金并不是你可以持有那么长的时间，而是每个月都要还本金的一部分。<br>
+这里就有猫腻了，因为我们往银行存钱的时候，给我们的年化利率，比如说是3%，实际上我们的本金银行在存期内是一直持有的，并没有在存期内每个月返还我们的部分本金，于是我就想按照正常持有一年算一下消费贷款的实际年化利率是多少，下面就是程序</p>
+<img src="./324492141030151304.jpg" width="500px" height="400px"><br>
+<label for="allDebit">分期总额：</label><input type="text" id="allDebit"><br>
+<label>手续费率：</label><input type="number" id="rate" step="0.001"><br>
+<label>期数：</label><input type="number" id="month" min="1"><br>
+<button id="calculate">确定</button>
+<div id="display"></div>
+<script type="text/javascript">
+	var $ = function(id) {
+		return document.getElementById(id);
+	}
+	$("calculate").onclick = function() {
+		var allDebit = $("allDebit").value;
+		var rate = new Number($("rate").value);
+		var month = new Number($("month").value);
+		var allRealRateMoney = 0;
+		var eachMonthRateMoney = allDebit * rate / month;
+		var eachMonthHoldMoney = allDebit / month;
+		var result = "";
+		for (var i = 1; i <= month; i++) {
+			var MonthRealYearRate = (eachMonthRateMoney / eachMonthHoldMoney) * (month / i);
+			var monthRealRateCorrespondYearMoney = MonthRealYearRate * eachMonthHoldMoney; 
+			var fourDecimalNumber = MonthRealYearRate.toFixed(4);
+			var pointIndex = fourDecimalNumber.indexOf(".");
+			var percentageNum = fourDecimalNumber.slice(0,pointIndex) + fourDecimalNumber.slice(pointIndex+1,pointIndex+3) + "." + fourDecimalNumber.slice(pointIndex+4,pointIndex+6) + "%";
+
+			allRealRateMoney += monthRealRateCorrespondYearMoney;
+			result = result + "第" + i + "个月的利率折合成年化利率是"+percentageNum + ", 该笔钱(" +eachMonthHoldMoney.toFixed(2)+ "元)持有" + month + "个月需要还的利息是" + monthRealRateCorrespondYearMoney.toFixed(2)+"<br>";
+		}
+		result = result + "当你向银行消费贷款" +allDebit+"元, 你实际上持有" + month + "个月需要向银行还利息" + allRealRateMoney.toFixed(2) + "元";
+		$("display").innerHTML = result;		
+	};
+
+</script>
+</body>
+</html>
