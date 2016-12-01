@@ -30,7 +30,7 @@
 			var monthRealRateCorrespondYearMoney = MonthRealYearRate * eachMonthHoldMoney; 
 			var fourDecimalNumber = MonthRealYearRate.toFixed(4);
 			var pointIndex = fourDecimalNumber.indexOf(".");
-			var percentageNum = fourDecimalNumber.slice(0,pointIndex) + fourDecimalNumber.slice(pointIndex+1,pointIndex+3) + "." + fourDecimalNumber.slice(pointIndex+4,pointIndex+6) + "%";
+			var percentageNum = fourDecimalNumber.slice(0,pointIndex) + fourDecimalNumber.slice(pointIndex+1,pointIndex+3) + "." + fourDecimalNumber.slice(pointIndex+3,pointIndex+5) + "%";
 
 			allRealRateMoney += monthRealRateCorrespondYearMoney;
 			result = result + "第" + i + "个月的利率折合成年化利率是"+percentageNum + ", 该笔钱(" +eachMonthHoldMoney.toFixed(2)+ "元)持有" + month + "个月需要还的利息是" + monthRealRateCorrespondYearMoney.toFixed(2)+"<br>";
